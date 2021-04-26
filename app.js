@@ -1,37 +1,77 @@
-const apiLink='https://free.currconv.com/api/v7/convert?q=USD_PHP&compact=ultra&apiKey=458519bf09071b4e3a8b'
+const apiLink='http://api.exchangeratesapi.io/v1/latest?access_key=c122a8d83b292b9d239f9a9415013a48'
 
 
 class ExchangeCounter extends React.Component {
 
   state = {
-    result: 0,
-    value: 0
+    result: '',
+    value: 0,
+    valueCurr: 0,
+    array: [],
   }
-
-fn1 = () => {
+componentDidMount() {
   axios.get(apiLink)
   .then(res=> this.setState({
-    result: this.state.value * res.data.USD_PHP}))
+    array: [...Object.entries(res.data.rates)],
+    // entries: Object.entries(res.data.rates).map((key, value) => {
+    //   return {
+    //     id: key,
+    //     x: value,
+    //     ...res.data.rates[key]
+
+    //   }
+    // })
+  }
+  )
+)};
+
+
+fn1 = (e) => {
+  this.setState({
+    value: e.target.value,
+    result: (this.state.value * this.state.valueCurr).toFixed(2)
+  })
 }
+
 
 fn2 = (e) => {
   this.setState({
-    value: e.target.value
+    valueCurr: e.target.value,
+    result: (this.state.value * this.state.valueCurr).toFixed(2)
   })
 }
+
+
+
+fn3 = () => {
+    this.setState({
+      
+      })
+}
+
+
 
   render() {
     return (
       <div className="app">
-        <input onChange={this.fn2}
-        />
-        <button onClick={this.fn1}>przlicz</button>
-        <div>USD po przeliczeniu to tyle PHP: {this.state.result}</div>
+        <h1>Przelicznik walut</h1>
+        <input className='input' type='number' onChange={this.fn1} placeholder='EUR'/><span>EUR</span>
+        <div>
+            <span> to: {this.state.result}</span>
+          <select className='select' onChange={this.fn2}>
+            {this.state.array.map(item => (
+              <option value={item[1]} key={item[0]}>{item[0]}</option>
+
+            ) )}
+          </select>
+          <div>w druga stronę to: {this.fn3}</div>
+        </div>
       </div>
     )
 
   }
 }
+
 ReactDOM.render(<ExchangeCounter />, document.getElementById('root'))
 
 
