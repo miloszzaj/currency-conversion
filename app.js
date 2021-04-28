@@ -8,6 +8,7 @@ class ExchangeCounter extends React.Component {
     valueCurr: 0,
     array: [],
   }
+  
 componentDidMount() {
   axios.get(apiLink)
   .then(res=> this.setState({
@@ -25,6 +26,8 @@ componentDidMount() {
 // )};
 
 
+
+// """""???????????????????
 fn1 = (e) => {
   this.setState({
     value: e.target.value,
