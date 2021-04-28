@@ -1,5 +1,4 @@
-const apiLink='http://api.exchangeratesapi.io/v1/latest?access_key=c122a8d83b292b9d239f9a9415013a48'
-
+const apiLink='http://api.exchangeratesapi.io/v1/latest?access_key='
 
 class ExchangeCounter extends React.Component {
 
@@ -13,23 +12,22 @@ componentDidMount() {
   axios.get(apiLink)
   .then(res=> this.setState({
     array: [...Object.entries(res.data.rates)],
-    // entries: Object.entries(res.data.rates).map((key, value) => {
-    //   return {
-    //     id: key,
-    //     x: value,
-    //     ...res.data.rates[key]
-
-    //   }
-    // })
   }
   )
 )};
+
+// componentDidMount() {
+//   axios.get(apiLink)
+//   .then(res=> this.setState({
+//     array: Object.entries(res.data.rates).map(e => ( { curr: e[0], vC: e[1] } )), !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//   }
+//   )
+// )};
 
 
 fn1 = (e) => {
   this.setState({
     value: e.target.value,
-    result: (this.state.value * this.state.valueCurr).toFixed(2)
   })
 }
 
@@ -37,18 +35,13 @@ fn1 = (e) => {
 fn2 = (e) => {
   this.setState({
     valueCurr: e.target.value,
-    result: (this.state.value * this.state.valueCurr).toFixed(2)
+  })
+  this.setState((prevState) => {
+    return {
+  result: (prevState.value * prevState.valueCurr).toFixed(2)
+}
   })
 }
-
-
-
-fn3 = () => {
-    this.setState({
-      
-      })
-}
-
 
 
   render() {
@@ -60,11 +53,12 @@ fn3 = () => {
             <span> to: {this.state.result}</span>
           <select className='select' onChange={this.fn2}>
             {this.state.array.map(item => (
-              <option value={item[1]} key={item[0]}>{item[0]}</option>
+              <option value={item[1]} key={item[0]}>{item[0]} (kurs: {item[1].toFixed(2)})</option>
+              // <option value={item.vC} key={item.curr}> {item.curr} (kurs:{item.vC})</option>))}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-            ) )}
+              ) )}
           </select>
-          <div>w druga stronę to: {this.fn3}</div>
+          <button onClick = {this.fn3}>przelicz</button>
         </div>
       </div>
     )
