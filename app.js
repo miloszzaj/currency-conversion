@@ -1,4 +1,4 @@
-const apiLink='http://api.exchangeratesapi.io/v1/latest?access_key=c122a8d83b292b9d239f9a9415013a48'
+const apiLink='http://api.exchangeratesapi.io/v1/latest?access_key='
 
 
 class ExchangeCounter extends React.Component {
